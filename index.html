@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>错题讲解视频</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:#0f1115;color:#e8eaed;font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;display:flex;flex-direction:column}
+  header{padding:14px 18px 10px;flex:none}
+  header h1{margin:0;font-size:17px;font-weight:500}
+  header p{margin:4px 0 0;font-size:13px;color:#9aa0a6}
+  .wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:0 12px 18px;min-height:0}
+  video{width:100%;max-width:960px;max-height:100%;background:#000;border-radius:10px;display:block}
+  .tip{margin:0 18px 20px;padding:12px 14px;background:#1b1f27;border:1px solid #2a3038;border-radius:10px;font-size:13px;color:#c3c8cf;flex:none}
+  .tip a{color:#8ab4f8;word-break:break-all}
+  .bad{color:#f28b82}
+  .acts{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+  .acts a{display:inline-block;padding:8px 14px;background:#2b3340;color:#e8eaed;border-radius:8px;text-decoration:none;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>这道题的讲解视频</h1>
+  <p>看完能复述才算学会 —— 让孩子讲给您听一遍。</p>
+</header>
+<div class="wrap"><video id="v" controls playsinline webkit-playsinline preload="metadata"></video></div>
+<div class="tip" id="tip"></div>
+<script>
+(function(){
+  var ALLOW = /^https:\/\/(?:[a-z0-9-]+\.)*shiguangshufang\.com\/|^https:\/\/hsyx-[a-z0-9-]+\.oss-cn-beijing\.aliyuncs\.com\//i;
+  var raw = new URLSearchParams(location.search).get('u') || '';
+  var tip = document.getElementById('tip');
+  var v = document.getElementById('v');
+  if (!raw) {
+    tip.innerHTML = '<span class="bad">没有拿到视频地址。</span>请重新扫描报告里的二维码。';
+    return;
+  }
+  if (!ALLOW.test(raw)) {
+    tip.innerHTML = '<span class="bad">地址不在允许的范围内，已阻止打开。</span><br>'
+      + raw.replace(/[<>&"]/g, '');
+    return;
+  }
+  v.src = raw;
+  v.addEventListener('loadedmetadata', function(){ v.dataset.ok = '1'; });
+  v.addEventListener('error', function(){
+    tip.innerHTML = '<span class="bad">视频加载失败了。</span>可以点下面按钮换一种方式打开。'
+      + '<div class="acts">'
+      + '<a href="' + raw.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener noreferrer">在浏览器里打开</a>'
+      + '<a href="' + raw.replace(/"/g,'&quot;') + '" rel="noreferrer" download>下载到手机</a>'
+      + '</div>';
+  });
+  tip.innerHTML = '如果视频没有自动播放，点一下上面的播放键。<br>'
+    + '<div class="acts">'
+    + '<a href="' + raw.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener noreferrer">在浏览器里打开</a>'
+    + '<a href="' + raw.replace(/"/g,'&quot;') + '" rel="noreferrer" download>下载到手机</a>'
+    + '</div>';
+})();
+</script>
+</body>
+</html>
